@@ -14,13 +14,16 @@ module.exports = {
 
   output: {
     filename: '[name].js',
+    publicPath: `http://localhost:${packageJson.application.port}`,
     path: path.resolve(__dirname, 'dist'),
   },
 
   plugins: [new HtmlWebpackPlugin()],
 
   devServer: {
-    contentBase: './dist',
+    quiet: true,
+    noInfo: true,
+    historyApiFallback: true,
     port: packageJson.application.port,
   },
 };

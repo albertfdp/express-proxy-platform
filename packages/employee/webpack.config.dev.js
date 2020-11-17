@@ -14,6 +14,7 @@ module.exports = {
 
   output: {
     filename: '[name].js',
+    publicPath: `http://localhost:${appConfig.port}`,
     path: path.resolve(__dirname, 'dist'),
   },
 
@@ -21,6 +22,9 @@ module.exports = {
 
   devServer: {
     contentBase: './dist',
+    quiet: true,
+    noInfo: true,
+    historyApiFallback: true,
     port: appConfig.port,
   },
 };
