@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "start": "lerna run start --stream",
+    "serve": "NODE_ENV=production yarn workspace server start",
     "build": "lerna run build"
   },
   "devDependencies": {

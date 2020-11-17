@@ -31,7 +31,12 @@ async function getLocalApplications() {
   const packages = await getAllPackages();
   const configs = packages.reduce((acc, package) => {
     const config = getPackageConfig(package);
-    acc[package.name] = config;
+
+    acc[package.name] = {
+      name: package.name,
+      location: package.location,
+      ...config,
+    };
     return acc;
   }, {});
 
@@ -46,15 +51,22 @@ const createApplication = async () => {
   for (const app of Object.keys(apps)) {
     const config = apps[app];
 
-    const proxy = createProxyMiddleware({
-      target: `http://localhost:${config.port}`,
-      changeOrigin: true,
-      ws: true,
-    });
+    if (process.env.NODE_ENV === 'production') {
+      const dist = path.join(config.location, 'dist');
 
-    // register the proxy
+      expressApp.use(
+        config.routes,
+        express.static(dist, { maxAge: 1000 * 60 * 60 * 24 })
+      );
+    } else {
+      const proxy = createProxyMiddleware({
+        target: `http://localhost:${config.port}`,
+        changeOrigin: true,
+        ws: true,
+      });
 
-    expressApp.use(config.routes, proxy);
+      expressApp.use(config.routes, proxy);
+    }
   }
 
   expressApp.listen(3000, () => {
