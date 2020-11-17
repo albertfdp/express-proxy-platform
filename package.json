@@ -8,6 +8,7 @@
     "packages/*"
   ],
   "scripts": {
+    "start": "lerna run start --stream",
     "build": "lerna run build"
   },
   "devDependencies": {

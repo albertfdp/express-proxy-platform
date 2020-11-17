@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const packageJson = require('./package.json');
+
 module.exports = {
   mode: 'development',
 
@@ -19,5 +21,6 @@ module.exports = {
 
   devServer: {
     contentBase: './dist',
+    port: packageJson.application.port,
   },
 };

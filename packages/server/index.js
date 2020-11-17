@@ -1,25 +1,12 @@
-const { getPackages } = require('@lerna/project');
-const filterPackages = require('@lerna/filter-packages');
-const batchPackages = require('@lerna/batch-packages');
+const express = require('express');
 
-const path = require('path');
+const app = express();
 
-const rootDir = path.join(__dirname, '../..');
+app.use('/admin', (req, res) => {
+  console.log('App');
+  return res.send(200);
+});
 
-async function getAllPackages(scope, ignore = ['server']) {
-  const packages = await getPackages(rootDir);
-  const filtered = filterPackages(packages, scope, ignore);
-
-  return batchPackages(filtered).reduce((arr, batch) => {
-    return arr.concat(batch);
-  }, []);
-}
-
-(async () => {
-  const packages = await getAllPackages();
-
-  for (const package of packages) {
-    const config = require(`${package.name}/package.json`);
-    console.log(config.name, config.version);
-  }
-})();
+app.listen(3000, () => {
+  console.log(`Server running on port 3000`);
+});

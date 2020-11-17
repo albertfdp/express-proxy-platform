@@ -15,5 +15,11 @@
   },
   "dependencies": {
     "lodash": "^4.17.20"
+  },
+  "application": {
+    "routes": [
+      "/admin"
+    ],
+    "port": "3001"
   }
 }
